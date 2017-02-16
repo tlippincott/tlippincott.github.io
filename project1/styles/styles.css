@@ -49,7 +49,7 @@ table {
 /* Custom Settings */
 
 body {
-	font-family: 'Lato', 'Oxygen', sans-serif;
+	font-family: 'Lato', Oxygen, Arial, sans-serif;
 }
 
 h1 {
@@ -71,24 +71,68 @@ h3 {
 	text-align: center;
 }
 
+/* Buttons */
+
+#buttonGroup {
+   float: right;
+   position: relative;
+   right: 17%;
+}
+
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #5b97bf;
+   background: -webkit-gradient(linear, left top, left bottom, from(#2f6182), to(#5b97bf));
+   background: -webkit-linear-gradient(top, #2f6182, #5b97bf);
+   background: -moz-linear-gradient(top, #2f6182, #5b97bf);
+   background: -ms-linear-gradient(top, #2f6182, #5b97bf);
+   background: -o-linear-gradient(top, #2f6182, #5b97bf);
+   padding: 7.5px 15px;
+   -webkit-border-radius: 19px;
+   -moz-border-radius: 19px;
+   border-radius: 19px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 22px;
+   font-family: 'Lato', Oxygen, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   min-width: 250px;
+   }
+.button:hover {
+   border-top-color: #6bbff7;
+   background: #6bbff7;
+   color: #ffffff;
+   }
+.button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+
 /* Image Container */
 
 #outerContainer {
-    width: 400px;
-    height: 400px;
-    display: table;
     background-color: #ccc;         
+    display: table;
+    float: left;
+    height: 400px;
+    position: relative;
+    left: 35%;
+    width: 400px;
 }
 
 #outerContainer .imageContainer {
+    display: table-cell;
     text-align: center;
     vertical-align: middle;
-    display: table-cell;
 }
 
 #outerContainer .imageContainer img {
-    max-width: 400px;
     max-height: 400px;        
+    max-width: 400px;
 }
 
 /* Player Name */
