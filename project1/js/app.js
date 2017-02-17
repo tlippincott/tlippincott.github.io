@@ -24,18 +24,21 @@ $.ajax({
 })
 
 var score = 100;
-var decreaseScore = 0;
 
-setInterval(function() {
+
+/* Decrease the available points for the current photo */
+var decreaseScore = setInterval(function() {
 	$('#decPoints').text(score);
 
-	//console.log("score is " + score);
-	//console.log("decreaseScore is " + decreaseScore);
+	score = score -= 1;
 
-	decreaseScore = Math.ceil(100 - .01);
-	score = score - (decreaseScore);
-}, 5000);
+	if (score < 0) {
+		clearInterval(decreaseScore);
+	}
 
+}, 93);
+
+/* Animate the progress bar */
 $(".meter > span").each(function() {
 	$(this)
 	  .data("origWidth", 0)
@@ -44,3 +47,9 @@ $(".meter > span").each(function() {
 	    width: $(this).data("origWidth") // or + "%" if fluid
 	  }, 10000);
 });
+
+$('.button').click(function() {
+	clearInterval(decreaseScore);
+
+	$('.meter > span').stop(true, false);
+})
