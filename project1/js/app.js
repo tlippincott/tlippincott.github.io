@@ -22,3 +22,25 @@ $.ajax({
 		console.log(error);
 	}
 })
+
+var score = 100;
+var decreaseScore = 0;
+
+setInterval(function() {
+	$('#decPoints').text(score);
+
+	//console.log("score is " + score);
+	//console.log("decreaseScore is " + decreaseScore);
+
+	decreaseScore = Math.ceil(100 - .01);
+	score = score - (decreaseScore);
+}, 5000);
+
+$(".meter > span").each(function() {
+	$(this)
+	  .data("origWidth", 0)
+	  .width($(this).width())
+	  .animate({
+	    width: $(this).data("origWidth") // or + "%" if fluid
+	  }, 10000);
+});
