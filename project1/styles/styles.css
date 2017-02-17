@@ -71,6 +71,11 @@ h3 {
 	text-align: center;
 }
 
+/* Available Points */
+#availablePoints {
+	text-align: center;
+}
+
 /* Buttons */
 
 #buttonGroup {
@@ -101,7 +106,12 @@ h3 {
    text-decoration: none;
    vertical-align: middle;
    min-width: 250px;
+   margin-bottom: 20px;
    }
+
+.button:nth-child(1) {
+	margin-top: 30px;
+}
 .button:hover {
    border-top-color: #6bbff7;
    background: #6bbff7;
@@ -111,6 +121,11 @@ h3 {
    border-top-color: #1b435e;
    background: #1b435e;
    }
+
+/* Clear Float */
+.clearFloat {
+	clear: both;
+}
 
 /* Image Container */
 
