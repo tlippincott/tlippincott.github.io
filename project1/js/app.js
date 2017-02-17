@@ -23,16 +23,19 @@ $.ajax({
 	}
 })
 
-var score = 100;
+startOver();
 
+function startOver() {
+
+var availablePoints = 100;
 
 /* Decrease the available points for the current photo */
 var decreaseScore = setInterval(function() {
-	$('#decPoints').text(score);
+	$('#decPoints').text(availablePoints);
 
-	score = score -= 1;
+	availablePoints--
 
-	if (score < 0) {
+	if (availablePoints < 0) {
 		clearInterval(decreaseScore);
 	}
 
@@ -52,4 +55,10 @@ $('.button').click(function() {
 	clearInterval(decreaseScore);
 
 	$('.meter > span').stop(true, false);
+
+	$('.meter > span').attr('style', 'width: 100%');
+
+	startOver();
 })
+
+}
