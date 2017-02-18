@@ -1,14 +1,15 @@
+var singleGlobalData = "";
 var globalData = "";
 
 /* object to hold artist information */
-function singleArtist(localID, name, albumCover) {
-	this.localID = localID,
-	this.name = name,
-	this.albumCover = albumCover
+function SingleArtist(localID, name, albumCover) {
+	this.localID = localID;
+	this.name = name;
+	this.albumCover = albumCover;
 }
 
-/* array to hold artist information objects */
-var single = [];
+var otherAnswers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];  //array for random answers
+var fourAnswers = [];
 
 /* Beginning list of artist ID's. This ID is needed
 ** in order to return the list of related artists
@@ -32,10 +33,8 @@ $.ajax({
 	dataType: 'json',
 	type: 'GET',
 	success: function(singleData) {
+		singleGlobalData = singleData;
 		console.log(singleData);
-
-			single[0]  = new singleArtist(0, singleData.name, singleData.images[0]);
-
 	},
 	fail: function(error) {
 		console.log(error);
@@ -51,12 +50,6 @@ $.ajax({
 		globalData = data;
 		console.log(data);
 
-		for (var x = 1; x < data.artists.length + 1; x++){
-
-			single[x]  = new singleArtist(x, globalData.artists[x - 1].name, globalData.artists[x - 1].images[0]);
-
-		}
-
 		loadArtists();
 	},
 	fail: function(error) {
@@ -66,8 +59,27 @@ $.ajax({
 
 /* load the photos and answers */
 function loadArtists() {
-	$('#answer1').text(single[0].name);
-	$('#albumArt').attr('src', single[0].albumCover.url);
+	//$('#answer1').text(single[0].name);
+	var single0  = new SingleArtist(0, singleGlobalData.name, singleGlobalData.images[0]);
+
+	$('#albumArt').attr('src', single0.albumCover.url);
+
+	for (var x = 1; x < globalData.artists.length + 1; x++){
+		var objName = 'single' + x;
+
+		objName  = new SingleArtist(x, globalData.artists[x - 1].name, globalData.artists[x - 1].images[0]);
+	}
+	/* randomize and display the remaining three answers */
+	shuffle(otherAnswers);
+
+	console.log(single0.name);
+	//fourAnswers[0] = single0.name; //correct answer
+
+	for (x = 1; x < 4; x++) {
+		var miscName = 'single' + (x - 1);
+		fourAnswers[x] = miscName.name;
+	}
+
 }
 
 startOver();
@@ -108,4 +120,18 @@ $('.button').click(function() {
 	startOver();
 })
 
+}
+
+/* randomize the remaining three answers */
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
 }
