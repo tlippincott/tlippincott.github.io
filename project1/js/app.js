@@ -2,21 +2,37 @@ var value = 1.0;
 var refreshIntervalId;
 var globalData = "";
 
-var input = prompt("Enter Artist:");
+function singleArtist(localID, name, albumCover) {
+	this.localID = localID,
+	this.name = name,
+	this.albumCover = albumCover
+}
 
+var single = [];
+
+var searchList = [
+	[0, "36QJpDe2go2KgaRleHCDTp"],
+	[1, "2ye2Wgw4gimLv2eAKyk1NB"],
+	[2, "5W5bDNCqJ1jbCgTxDD0Cb3"],
+	[3, "5a2EaR3hamoenG9rDuVn8j"],
+	[4, "0vn7UBvSQECKJm2817Yf1P"],
+	[5, "03r4iKL2g2442PT9n2UKsx"]];
+
+var getArtist = searchList[Math.floor((Math.random() * 5))][1];
 
 $.ajax({
-	url: 'https://api.spotify.com/v1/search?q=' + input + '&type=artist',
+	url: 'https://api.spotify.com/v1/artists/' + getArtist + '/related-artists',
 	dataType: 'json',
 	type: 'GET',
 	success: function(data) {
-		console.log(data);
 		globalData = data;
+		console.log(data);
 
-		var image = globalData.artists.items[0].images[0].url;
+		for (var x = 0; x < data.artists.length; x++){
 
-		//$('#original').attr('src', image);
-		$('img').attr('src', image);
+			single[x]  = new singleArtist(x, globalData.artists[x].name, globalData.artists[x].images[0]);
+
+		}
 	},
 	fail: function(error) {
 		console.log(error);
