@@ -1,5 +1,9 @@
 var singleGlobalData = "";
 var globalData = "";
+var correctAnswer = "";
+var decreaseScore = "";
+var availablePoints = 100;  //maximum points available for each image
+var playerScore = 0;
 
 /* object to hold artist information */
 function SingleArtist(localID, name, albumCover) {
@@ -75,6 +79,10 @@ function loadArtists() {
 	for (x = 1; x < 5; x++) {
 		var btnName = '#answer' + x;
 		$(btnName).text(fourAnswers[x - 1][1]);
+
+		if (fourAnswers[x - 1][0] === 1) {
+			correctAnswer = btnName.substring(1, 8);  //button ID minus the '#'
+		}
 	}
 
 }
@@ -83,10 +91,8 @@ startOver();
 
 function startOver() {
 
-var availablePoints = 100;
-
 /* Decrease the available points for the current photo */
-var decreaseScore = setInterval(function() {
+	decreaseScore = setInterval(function() {
 	$('#decPoints').text(availablePoints);
 
 	availablePoints--
@@ -106,20 +112,32 @@ $(".meter > span").each(function() {
 	    width: $(this).data("origWidth") // or + "%" if fluid
 	  }, 10000);
 });
+}
 
 /* answer button clicked */
 $('.button').click(function() {
-	
-	clearInterval(decreaseScore);
+	if (this.id === correctAnswer) {
+		clearInterval(decreaseScore);
 
-	$('.meter > span').stop(true, false);
+		playerScore += availablePoints;
 
-	$('.meter > span').attr('style', 'width: 100%');
+		$('.scoreNum').text(playerScore);
 
-	startOver();
+		$('.meter > span').stop(true, false);  //stop the meter
+
+		$('.meter > span').attr('style', 'width: 100%');  //reset the meter to 100
+
+		availablePoints = 100;
+
+		startOver();
+	}
+	else {
+		playerScore -= 10;  //decrease player score by 10 for an incorrect answer
+
+		$('.scoreNum').text(playerScore);
+	}
+
 })
-
-}
 
 /* randomize the remaining three answers */
 function shuffle (array) {
