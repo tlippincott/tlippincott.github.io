@@ -61,14 +61,12 @@ function loadArtists() {
 
 	 $('#albumArt').attr('src', singleGlobalData.images[0].url);
 
-	fourAnswers[0] = singleGlobalData.name; //correct answer
-
-	$('#answer1').text(fourAnswers[0]);
+	fourAnswers[0] = [1, singleGlobalData.name]; //correct answer
 
 	shuffle(globalData);
 
 	for (x = 1; x < 4; x++) {
-		fourAnswers[x] = globalData.artists[x - 1].name;
+		fourAnswers[x] = [0, globalData.artists[x - 1].name];
 	}
 
 	shuffle(fourAnswers);
@@ -76,7 +74,7 @@ function loadArtists() {
 	/* place the text into the buttons */
 	for (x = 1; x < 5; x++) {
 		var btnName = '#answer' + x;
-		$(btnName).text(fourAnswers[x - 1]);
+		$(btnName).text(fourAnswers[x - 1][1]);
 	}
 
 }
@@ -109,7 +107,9 @@ $(".meter > span").each(function() {
 	  }, 10000);
 });
 
+/* answer button clicked */
 $('.button').click(function() {
+	
 	clearInterval(decreaseScore);
 
 	$('.meter > span').stop(true, false);
