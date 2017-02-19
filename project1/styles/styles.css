@@ -122,6 +122,12 @@ h3 {
    background: #1b435e;
    }
 
+.disabled,
+.disabled:hover {
+   border-top-color: #1b435e;
+   background: #1b435e;
+}
+
 /* Clear Float */
 .clearFloat {
 	clear: both;

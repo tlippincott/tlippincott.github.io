@@ -152,9 +152,18 @@ $('.button').click(function() {
 
 		$('.meter > span').stop(true, false);  //stop the meter
 
+		if (currentArtist === 10) {
+			alert("Round over, sucka!");
+			exit();
+		}
+
 		$('.meter > span').attr('style', 'width: 100%');  //reset the meter to 100
 
 		availablePoints = 100;
+
+		//enable any disabled buttons
+		$('.button').disable(false);
+		$('.button').removeClass('disabled');
 
 		loadArtists();
 	}
@@ -162,6 +171,10 @@ $('.button').click(function() {
 		playerScore -= 10;  //decrease player score by 10 for an incorrect answer
 
 		$('.scoreNum').text(playerScore);
+
+		//disable button so player does not click it again
+		$(this).disable(true);
+		$(this).addClass('disabled');
 	}
 
 })
@@ -178,4 +191,53 @@ function shuffle (array) {
     array[i] = array[j]
     array[j] = temp
   }
+}
+
+/* button disable function */
+jQuery.fn.extend({
+    disable: function(state) {
+        return this.each(function() {
+            this.disabled = state;
+        });
+    }
+});
+
+/* exit the program */
+function exit( status ) {
+
+    var i;
+
+    if (typeof status === 'string') {
+        alert(status);
+    }
+
+    window.addEventListener('error', function(e) {
+    	e.preventDefault();
+    	e.stopPropagation();
+    }, false);
+
+    var handlers = [
+        'copy', 'cut', 'paste', 'beforeunload', 'blur', 'change', 'click', 'contextmenu', 'dblclick', 'focus', 'keydown', 'keypress', 'keyup',
+        'mousedown', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'resize', 'scroll', 'DOMNodeInserted', 'DOMNodeRemoved',
+        'DOMNodeRemovedFromDocument', 'DOMNodeInsertedIntoDocument', 'DOMAttrModified', 'DOMCharacterDataModified', 'DOMElementNameChanged',
+        'DOMAttributeNameChanged', 'DOMActivate', 'DOMFocusIn', 'DOMFocusOut', 'online', 'offline', 'textInput', 'abort', 'close', 'dragdrop',
+        'load', 'paint', 'reset', 'select', 'submit', 'unload'
+    ];
+
+    function stopPropagation (e) {
+        e.stopPropagation();
+        // e.preventDefault(); // Stop for the form controls, etc., too?
+    }
+
+    for (var i = 0; i < handlers.length; i++) {
+        window.addEventListener(handlers[i], function(e) {
+        	stopPropagation(e);
+        }, true);
+    }
+
+    if (window.stop) {
+        window.stop();
+    }
+
+    throw '';
 }
