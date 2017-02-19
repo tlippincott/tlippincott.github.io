@@ -8,7 +8,6 @@ function SingleArtist(localID, name, albumCover) {
 	this.albumCover = albumCover;
 }
 
-var otherAnswers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];  //array for random answers
 var fourAnswers = [];
 
 /* Beginning list of artist ID's. This ID is needed
@@ -59,25 +58,25 @@ $.ajax({
 
 /* load the photos and answers */
 function loadArtists() {
-	//$('#answer1').text(single[0].name);
-	var single0  = new SingleArtist(0, singleGlobalData.name, singleGlobalData.images[0]);
 
-	$('#albumArt').attr('src', single0.albumCover.url);
+	 $('#albumArt').attr('src', singleGlobalData.images[0].url);
 
-	for (var x = 1; x < globalData.artists.length + 1; x++){
-		var objName = 'single' + x;
+	fourAnswers[0] = singleGlobalData.name; //correct answer
 
-		objName  = new SingleArtist(x, globalData.artists[x - 1].name, globalData.artists[x - 1].images[0]);
-	}
-	/* randomize and display the remaining three answers */
-	shuffle(otherAnswers);
+	$('#answer1').text(fourAnswers[0]);
 
-	console.log(single0.name);
-	//fourAnswers[0] = single0.name; //correct answer
+	shuffle(globalData);
 
 	for (x = 1; x < 4; x++) {
-		var miscName = 'single' + (x - 1);
-		fourAnswers[x] = miscName.name;
+		fourAnswers[x] = globalData.artists[x - 1].name;
+	}
+
+	shuffle(fourAnswers);
+
+	/* place the text into the buttons */
+	for (x = 1; x < 5; x++) {
+		var btnName = '#answer' + x;
+		$(btnName).text(fourAnswers[x - 1]);
 	}
 
 }
