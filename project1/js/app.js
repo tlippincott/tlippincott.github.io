@@ -1,5 +1,8 @@
 var singleGlobalData = "";
 var globalData = "";
+var allArtists = [];
+var artistNames = [];
+var currentArtist = 0;
 var correctAnswer = "";
 var decreaseScore = "";
 var availablePoints = 100;  //maximum points available for each image
@@ -38,6 +41,9 @@ $.ajax({
 	success: function(singleData) {
 		singleGlobalData = singleData;
 		console.log(singleData);
+
+		allArtists[0] = [singleGlobalData.name, singleGlobalData.images[0].url];
+		artistNames[0] = singleGlobalData.name;
 	},
 	fail: function(error) {
 		console.log(error);
@@ -53,6 +59,16 @@ $.ajax({
 		globalData = data;
 		console.log(data);
 
+		var i = 1;
+		var j = 0;
+
+		for (var x = 0; x < 20; x++){
+			allArtists[i] = [globalData.artists[x].name, globalData.artists[x].images[0].url];
+			artistNames[i] = globalData.artists[x].name;
+
+			i++
+		}
+
 		loadArtists();
 	},
 	fail: function(error) {
@@ -63,14 +79,21 @@ $.ajax({
 /* load the photos and answers */
 function loadArtists() {
 
-	 $('#albumArt').attr('src', singleGlobalData.images[0].url);
+	 $('#albumArt').attr('src', allArtists[currentArtist][1]);
 
-	fourAnswers[0] = [1, singleGlobalData.name]; //correct answer
+	fourAnswers[0] = [1, allArtists[currentArtist][0]]; //correct answer
 
-	shuffle(globalData);
+	var correctName = allArtists[currentArtist][0];
+
+	shuffle(artistNames);
 
 	for (x = 1; x < 4; x++) {
-		fourAnswers[x] = [0, globalData.artists[x - 1].name];
+		if (artistNames[x - 1] != correctName){  //random name does not match the correct name
+			fourAnswers[x] = [0, artistNames[x - 1]];
+		}
+		else {
+			fourAnswers[x] = [0, artistNames[10]];
+		}
 	}
 
 	shuffle(fourAnswers);
@@ -85,9 +108,13 @@ function loadArtists() {
 		}
 	}
 
-}
+	currentArtist++
 
-startOver();
+	$('#currentPic').text(currentArtist);
+
+	startOver();  //start to decrease the available points and start the progress bar
+
+}
 
 function startOver() {
 
@@ -129,7 +156,7 @@ $('.button').click(function() {
 
 		availablePoints = 100;
 
-		startOver();
+		loadArtists();
 	}
 	else {
 		playerScore -= 10;  //decrease player score by 10 for an incorrect answer
