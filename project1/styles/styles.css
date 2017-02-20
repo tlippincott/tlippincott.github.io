@@ -50,6 +50,8 @@ table {
 
 body {
 	font-family: 'Lato', Oxygen, Arial, sans-serif;
+	background-image: url("../images/amplifier_background_img.jpg");
+	background: no-repeat;
 }
 
 h1 {
@@ -67,12 +69,22 @@ h3 {
 	font-weight: 400;
 }
 
+html { 
+  background: url("../images/amplifier_background_img.png") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .picXOfY {
+	margin: 20px 0 0 0;
 	text-align: center;
 }
 
 /* Available Points */
 #availablePoints {
+	margin: 20px 0 10px 0;
 	text-align: center;
 }
 
@@ -80,6 +92,7 @@ h3 {
 
 #buttonGroup {
    float: right;
+   margin-top: 10px;
    position: relative;
    right: 17%;
 }
@@ -112,11 +125,17 @@ h3 {
 .button:nth-child(1) {
 	margin-top: 30px;
 }
+
+.button:focus {
+	outline: none;
+}
+
 .button:hover {
    border-top-color: #6bbff7;
    background: #6bbff7;
    color: #ffffff;
    }
+
 .button:active {
    border-top-color: #1b435e;
    background: #1b435e;
@@ -126,6 +145,7 @@ h3 {
 .disabled:hover {
    border-top-color: #1b435e;
    background: #1b435e;
+   opacity: .3;
 }
 
 /* Clear Float */
@@ -146,8 +166,10 @@ h3 {
     display: table;
     float: left;
     height: 400px;
-    position: relative;
     left: 35%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    position: relative;
     width: 400px;
 }
 
@@ -170,6 +192,7 @@ h3 {
 /* Player Name */
 
 .playName {
+	padding: 20px;
 	text-align: center;
 }
 
@@ -216,13 +239,13 @@ h3 {
 /* Round */
 
 .round {
-	margin-left: 60%;
+	margin-left: 57%;
 }
 
 /* Score */
 
 .score {
 	float: left;
-	margin-left: 40%;
+	margin-left: 35%;
 }
 
