@@ -82,8 +82,17 @@ function loadArtists() {
 	$('.imageContainer').append('<img id="albumArt">');
 
 	$('#albumArt').on('load', function() {
+		var imgHeight = $('#albumArt').height();  //calculate top margin to vertically center imgage
+		var adjustMargin = 400 - imgHeight;
+
+		if (adjustMargin > 0) {
+			adjustMargin = adjustMargin / 2;
+		}
+
+		$('#outerContainer').css({'margin-top' : adjustMargin});
+
 		$('#albumArt').fadeIn(10000, function() {
-	 	//animation complete
+	 		//animation complete
 		 })
 	}).attr('src', allArtists[currentArtist][1]);
 

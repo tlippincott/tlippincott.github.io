@@ -1,57 +1,10 @@
-/* v2.0 | 20110126
-  http://meyerweb.com/eric/tools/css/reset/ 
-  License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
 /* Custom Settings */
 
 body {
-	font-family: 'Lato', Oxygen, Arial, sans-serif;
 	background-image: url("../images/amplifier_background_img.jpg");
 	background: no-repeat;
+	color: #fff;
+	font-family: 'Questrial', sans-serif;
 }
 
 h1 {
@@ -77,45 +30,51 @@ html {
   background-size: cover;
 }
 
-.picXOfY {
-	margin: 20px 0 0 0;
+#picXOfY {
+	margin: 0 15px 30px 0;
 	text-align: center;
 }
 
 /* Available Points */
 #availablePoints {
-	margin: 20px 0 10px 0;
+	margin: 15px 0 0 0;
 	text-align: center;
+}
+
+#decPoints {
+	margin-left: 5px;
 }
 
 /* Buttons */
 
 #buttonGroup {
-   float: right;
+   float: left;
    margin-top: 10px;
-   position: relative;
-   right: 17%;
+}
+
+#buttonAlign {
+	text-align: right;
 }
 
 .button {
-   border-top: 1px solid #96d1f8;
-   background: #5b97bf;
-   background: -webkit-gradient(linear, left top, left bottom, from(#2f6182), to(#5b97bf));
-   background: -webkit-linear-gradient(top, #2f6182, #5b97bf);
-   background: -moz-linear-gradient(top, #2f6182, #5b97bf);
-   background: -ms-linear-gradient(top, #2f6182, #5b97bf);
-   background: -o-linear-gradient(top, #2f6182, #5b97bf);
-   padding: 7.5px 15px;
-   -webkit-border-radius: 19px;
-   -moz-border-radius: 19px;
-   border-radius: 19px;
+   border-top: 1px solid #ffffff;
+   background: #8c0b0b;
+   background: -webkit-gradient(linear, left top, left bottom, from(#b40208), to(#8c0b0b));
+   background: -webkit-linear-gradient(top, #b40208, #8c0b0b);
+   background: -moz-linear-gradient(top, #b40208, #8c0b0b);
+   background: -ms-linear-gradient(top, #b40208, #8c0b0b);
+   background: -o-linear-gradient(top, #b40208, #8c0b0b);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
    box-shadow: rgba(0,0,0,1) 0 1px 0;
    text-shadow: rgba(0,0,0,.4) 0 1px 0;
    color: white;
-   font-size: 22px;
-   font-family: 'Lato', Oxygen, Arial, Sans-Serif;
+   font-size: 20px;
+   font-family: 'Questrial', sans-serif;
    text-decoration: none;
    vertical-align: middle;
    min-width: 250px;
@@ -131,14 +90,14 @@ html {
 }
 
 .button:hover {
-   border-top-color: #6bbff7;
-   background: #6bbff7;
+   border-top-color: #000000;
+   background: #000000;
    color: #ffffff;
    }
 
 .button:active {
-   border-top-color: #1b435e;
-   background: #1b435e;
+   border-top-color: #b40208;
+   background: #b40208;
    }
 
 .disabled,
@@ -153,6 +112,11 @@ html {
 	clear: both;
 }
 
+/* Game Info Section */
+#gameInfo {
+	float: left;
+}
+
 /* Image */
 
 #albumArt {
@@ -161,39 +125,26 @@ html {
 
 /* Image Container */
 
+#imageColumn {
+	float: left;
+	height: 400px;
+	text-align: center;
+}
+
 #outerContainer {
-/*    background-color: #ccc;  */       
-    display: table;
-    float: left;
-    height: 400px;
-    left: 35%;
     margin-bottom: 5px;
     margin-top: 5px;
-    position: relative;
-    width: 400px;
 }
 
-#outerContainer .imageContainer {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-}
-
-#outerContainer .imageContainer img {
+img {
     max-height: 400px;        
     max-width: 400px;
-}
-
-.imageContainer {
-	max-height: 400px;
-	max-width: 400px;
 }
 
 /* Player Name */
 
 .playName {
-	padding: 20px;
-	text-align: center;
+	padding: 20px 0 20px 0;
 }
 
 /* Points Meter */
@@ -224,9 +175,10 @@ html {
     rgb(43,194,83) 37%,
     rgb(84,240,84) 69%
   );
-  box-shadow: 
-    inset 0 2px 9px  rgba(255,255,255,0.3),
-    inset 0 -2px 6px rgba(0,0,0,0.4);
+
+box-shadow: 
+  inset 0 2px 9px  rgba(255,255,255,0.3),
+  inset 0 -2px 6px rgba(0,0,0,0.4);
   position: relative;
   overflow: hidden;
 }
@@ -239,13 +191,25 @@ html {
 /* Round */
 
 .round {
-	margin-left: 57%;
+	margin-left: 10%;
+}
+
+.roundNum {
+	margin-left: 5px;
 }
 
 /* Score */
 
 .score {
-	float: left;
-	margin-left: 35%;
+	margin-left: 10%;
 }
 
+.scoreNum {
+	margin-left: 5px;
+}
+
+/* Title */
+#titleInfo {
+	font-size: 30px;
+	text-align: center;
+}
