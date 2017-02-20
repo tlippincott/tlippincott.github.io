@@ -79,7 +79,13 @@ $.ajax({
 /* load the photos and answers */
 function loadArtists() {
 
-	 $('#albumArt').attr('src', allArtists[currentArtist][1]);
+	$('.imageContainer').append('<img id="albumArt">');
+
+	$('#albumArt').on('load', function() {
+		$('#albumArt').fadeIn(10000, function() {
+	 	//animation complete
+		 })
+	}).attr('src', allArtists[currentArtist][1]);
 
 	fourAnswers[0] = [1, allArtists[currentArtist][0]]; //correct answer
 
@@ -164,6 +170,8 @@ $('.button').click(function() {
 		//enable any disabled buttons
 		$('.button').disable(false);
 		$('.button').removeClass('disabled');
+
+		$('#albumArt').remove();
 
 		loadArtists();
 	}

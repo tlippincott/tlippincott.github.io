@@ -133,10 +133,16 @@ h3 {
 	clear: both;
 }
 
+/* Image */
+
+#albumArt {
+	display: none;
+}
+
 /* Image Container */
 
 #outerContainer {
-    background-color: #ccc;         
+/*    background-color: #ccc;  */       
     display: table;
     float: left;
     height: 400px;
@@ -154,6 +160,11 @@ h3 {
 #outerContainer .imageContainer img {
     max-height: 400px;        
     max-width: 400px;
+}
+
+.imageContainer {
+	max-height: 400px;
+	max-width: 400px;
 }
 
 /* Player Name */
