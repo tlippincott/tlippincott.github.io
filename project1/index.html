@@ -3,20 +3,41 @@
 <head>
 	<title>Guess the Artist</title>
 	<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<script src="js/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="js/velocity.min.js" type="text/javascript"></script>
 	<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 	<link href="styles/normalize.css" rel="stylesheet" type="text/css">
 	<link href="styles/skeleton.css" rel="stylesheet" type="text/css">
 	<link href="styles/styles.css" rel="stylesheet" type="text/css">
+	<link href="styles/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
+	<link href="styles/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+	<!-- Opening Dialog Box -->
+	<div id="openingDialog">Welcome to Guess the Artist. Images of various musical artists will slowly appear on the page. Click the button showing the corresponding name to collect the available points. The available points begin to decrease as each image comes into view. You lose 10 points for each incorrect guess. There are three rounds with 10 images shown in each round.<br><br>Please enter your name and click the OK button to begin. Good luck!<br><br>Player Name: <input type="text" id="playerName" /></div>
+
 	<div class="container">
 
 		<div class="row">
 
-			<div class="twelve columns" id="titleInfo">
+			<div class="five columns">
 
-				<h1 id="titleName">Logo and Title Holder</h1>
+				<div id="logoInfo">
+
+					<img id="logo" src="images/guesser_logo-shadow.png" >
+
+				</div>
+
+			</div>
+
+			<div class="seven columns">
+
+				<div id="titleInfo">
+
+					<h1 id="titleName">Guess the Artist</h1>
+
+				</div>
 
 			</div>
 
@@ -38,7 +59,7 @@
 
 				<!-- Round -->
 				<div class="round">
-					<h3>Round: <span class="roundNum">0</span> of 3</h3>
+					<h3>Round: <span class="roundNum">0</span> of <span id="roundNum2">3</span></h3>
 				</div>
 
 			</div>
@@ -101,9 +122,15 @@
 		<div class="row">
 
 		    <!-- Points Meter -->
-		    <div class="twelve columns meter red">
+		    <div class="twelve columns">
 
-		  		<span style="width: 100%"></span>
+			    <div id="meterDiv">
+
+			    	<div class="meter red">
+			  		<span style="width: 100%"></span>
+			  		</div>
+
+			  	</div>
 
 			</div>
 
@@ -115,6 +142,17 @@
 		    <div class="twelve columns" id="availablePoints">
 
 		    	<h2>Available Points: <span id="decPoints">100</span></h2>
+
+		    </div>
+
+	    </div>
+
+	    <div class="row">
+
+		    <!-- Footer -->
+		    <div class="twelve columns" id="footerInfo">
+
+		    	<h4>&copy; <?php echo date("Y"); ?> Terry Lippincott</h4>
 
 		    </div>
 

@@ -8,12 +8,8 @@ var decreaseScore = "";
 var availablePoints = 100;  //maximum points available for each image
 var playerScore = 0;
 
-/* object to hold artist information */
-function SingleArtist(localID, name, albumCover) {
-	this.localID = localID;
-	this.name = name;
-	this.albumCover = albumCover;
-}
+/* have inputs styled like the jquery ui plugin */
+$('input').addClass("ui-widget ui-widget-content ui-corner-all");
 
 var fourAnswers = [];
 
@@ -69,7 +65,7 @@ $.ajax({
 			i++
 		}
 
-		loadArtists();
+		//loadArtists();
 	},
 	fail: function(error) {
 		console.log(error);
@@ -141,6 +137,7 @@ function startOver() {
 
 	if (availablePoints < 0) {
 		clearInterval(decreaseScore);
+		availablePoints = 0;
 	}
 
 }, 93);
@@ -243,7 +240,6 @@ function exit( status ) {
 
     function stopPropagation (e) {
         e.stopPropagation();
-        // e.preventDefault(); // Stop for the form controls, etc., too?
     }
 
     for (var i = 0; i < handlers.length; i++) {
@@ -258,3 +254,38 @@ function exit( status ) {
 
     throw '';
 }
+
+/* message box that appears at beginning of game */
+$('#openingDialog').dialog({
+	autoopen: false,
+	close: function( event, ui ) {
+		loadArtists();
+	},
+	dialogClass: "no-close",
+	buttons: [
+	  {
+	    text: "OK",
+	    click: function() {
+	    	if ($('#playerName').val() === "") {
+	    		$('.playName').text("I am No Name");
+	    	}
+	    	else {
+	    		$('.playName').text($('#playerName').val());
+	    	}
+
+	    	$( this ).dialog( "close" );
+	    }
+		
+	      // Uncommenting the following line would hide the text,
+	      // resulting in the label being used as a tooltip
+	      //showText: false
+	    }
+	],
+	focus: function( event, ui ) {
+		$('playerName').focus();
+	},
+	minWidth: 400,
+	modal: true,
+	show: { effect: "highlight", duration: 800 },
+	title: "Welcome"
+});
