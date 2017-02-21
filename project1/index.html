@@ -17,6 +17,14 @@
 	<!-- Opening Dialog Box -->
 	<div id="openingDialog">Welcome to Guess the Artist. Images of various musical artists will slowly appear on the page. Click the button showing the corresponding name to collect the available points. The available points begin to decrease as each image comes into view. You lose 10 points for each incorrect guess. There are three rounds with 10 images shown in each round.<br><br>Please enter your name and click the OK button to begin. Good luck!<br><br>Player Name: <input type="text" id="playerName" /></div>
 
+	<!-- Between Rounds Dialog Box -->
+	<div id="roundsDialog">Congratulations! You scored <span id="roundScore"></span> points this round and you have a total of 
+	<span id="totalScore"></span> points for the game. When you are ready, click the OK button to start the next round.</div>
+
+	<!-- End of Game Dialog Box -->
+	<div id="endsDialog">Awesome! You scored <span id="endRoundScore"></span> points this round and you have a total of 
+	<span id="endTotalScore"></span> points for the game. Thank you for playing Guess the Artist.</div>
+
 	<div class="container">
 
 		<div class="row">
@@ -59,7 +67,7 @@
 
 				<!-- Round -->
 				<div class="round">
-					<h3>Round: <span class="roundNum">0</span> of <span id="roundNum2">3</span></h3>
+					<h3>Round: <span class="roundNum">1</span> of <span id="roundNum2">3</span></h3>
 				</div>
 
 			</div>

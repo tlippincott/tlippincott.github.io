@@ -5,8 +5,10 @@ var artistNames = [];
 var currentArtist = 0;
 var correctAnswer = "";
 var decreaseScore = "";
-var availablePoints = 100;  //maximum points available for each image
-var playerScore = 0;
+var availablePoints = 99;  //maximum points available for each image
+var playerScore = 0;  //player's score for the round
+var totalScore = 0;  //player's total score for the game
+var roundNum = 1;  //current round number
 
 /* have inputs styled like the jquery ui plugin */
 $('input').addClass("ui-widget ui-widget-content ui-corner-all");
@@ -27,50 +29,58 @@ var searchList = [
 	[4, "0vn7UBvSQECKJm2817Yf1P"],
 	[5, "03r4iKL2g2442PT9n2UKsx"]];
 
-var getArtist = searchList[Math.floor((Math.random() * 5))][1];
+/* If this is the first round, continue to request the
+** artist information, otherwise wait until the end of
+** each round before requesting a new set of information. */
+if (roundNum === 1) {
+	getArtistInfo();
+}
 
-/* retrieve information for the beginning artist */
-$.ajax({
-	url: 'https://api.spotify.com/v1/artists/' + getArtist,
-	dataType: 'json',
-	type: 'GET',
-	success: function(singleData) {
-		singleGlobalData = singleData;
-		console.log(singleData);
+function getArtistInfo() {
 
-		allArtists[0] = [singleGlobalData.name, singleGlobalData.images[0].url];
-		artistNames[0] = singleGlobalData.name;
-	},
-	fail: function(error) {
-		console.log(error);
-	}
-})
+	var getArtist = searchList[Math.floor((Math.random() * 5))][1];
 
-/* retrieve information for related artists */
-$.ajax({
-	url: 'https://api.spotify.com/v1/artists/' + getArtist + '/related-artists',
-	dataType: 'json',
-	type: 'GET',
-	success: function(data) {
-		globalData = data;
-		console.log(data);
+	/* retrieve information for the beginning artist */
+	$.ajax({
+		url: 'https://api.spotify.com/v1/artists/' + getArtist,
+		dataType: 'json',
+		type: 'GET',
+		success: function(singleData) {
+			singleGlobalData = singleData;
+			console.log(singleData);
 
-		var i = 1;
-		var j = 0;
-
-		for (var x = 0; x < 20; x++){
-			allArtists[i] = [globalData.artists[x].name, globalData.artists[x].images[0].url];
-			artistNames[i] = globalData.artists[x].name;
-
-			i++
+			allArtists[0] = [singleGlobalData.name, singleGlobalData.images[0].url];
+			artistNames[0] = singleGlobalData.name;
+		},
+		fail: function(error) {
+			console.log(error);
 		}
+	})
 
-		//loadArtists();
-	},
-	fail: function(error) {
-		console.log(error);
-	}
-})
+	/* retrieve information for related artists */
+	$.ajax({
+		url: 'https://api.spotify.com/v1/artists/' + getArtist + '/related-artists',
+		dataType: 'json',
+		type: 'GET',
+		success: function(data) {
+			globalData = data;
+			console.log(data);
+
+			var i = 1;
+			var j = 0;
+
+			for (var x = 0; x < 20; x++){
+				allArtists[i] = [globalData.artists[x].name, globalData.artists[x].images[0].url];
+				artistNames[i] = globalData.artists[x].name;
+
+				i++
+			}
+		},
+		fail: function(error) {
+			console.log(error);
+		}
+	})
+}
 
 /* load the photos and answers */
 function loadArtists() {
@@ -129,7 +139,7 @@ function loadArtists() {
 
 function startOver() {
 
-/* Decrease the available points for the current photo */
+	/* Decrease the available points for the current photo */
 	decreaseScore = setInterval(function() {
 	$('#decPoints').text(availablePoints);
 
@@ -140,17 +150,17 @@ function startOver() {
 		availablePoints = 0;
 	}
 
-}, 93);
+	}, 93);
 
-/* Animate the progress bar */
-$(".meter > span").each(function() {
-	$(this)
-	  .data("origWidth", 0)
-	  .width($(this).width())
-	  .animate({
-	    width: $(this).data("origWidth") // or + "%" if fluid
-	  }, 10000);
-});
+	/* Animate the progress bar */
+	$(".meter > span").each(function() {
+		$(this)
+		  .data("origWidth", 0)
+		  .width($(this).width())
+		  .animate({
+		    width: $(this).data("origWidth")
+		  }, 10000);
+	});
 }
 
 /* answer button clicked */
@@ -164,14 +174,9 @@ $('.button').click(function() {
 
 		$('.meter > span').stop(true, false);  //stop the meter
 
-		if (currentArtist === 10) {
-			alert("Round over, sucka!");
-			exit();
-		}
-
 		$('.meter > span').attr('style', 'width: 100%');  //reset the meter to 100
 
-		availablePoints = 100;
+		availablePoints = 99;
 
 		//enable any disabled buttons
 		$('.button').disable(false);
@@ -179,7 +184,20 @@ $('.button').click(function() {
 
 		$('#albumArt').remove();
 
-		loadArtists();
+		if (currentArtist === 10) {
+			totalScore += playerScore;
+
+			if (roundNum === 3) {
+				$('#endsDialog').dialog('open');  //if end of game
+			}
+			else {
+				$('#roundsDialog').dialog('open');  //if beginning of next round
+			}
+			
+		}
+		else {
+			loadArtists();
+		}	
 	}
 	else {
 		playerScore -= 10;  //decrease player score by 10 for an incorrect answer
@@ -257,7 +275,7 @@ function exit( status ) {
 
 /* message box that appears at beginning of game */
 $('#openingDialog').dialog({
-	autoopen: false,
+	autoOpen: true,
 	close: function( event, ui ) {
 		loadArtists();
 	},
@@ -288,4 +306,75 @@ $('#openingDialog').dialog({
 	modal: true,
 	show: { effect: "highlight", duration: 800 },
 	title: "Welcome"
+});
+
+/* message box that appears at end of each round */
+$('#roundsDialog').dialog({
+	autoOpen: false,
+	close: function( event, ui ) {
+		$('.roundNum').text(roundNum);
+
+		playerScore = 0;
+		$('.scoreNum').text('0');
+
+		loadArtists();
+	},
+	dialogClass: "no-close",
+	buttons: [
+	  {
+	    text: "OK",
+	    click: function() {
+
+	    	$( this ).dialog( "close" );
+	    }
+		
+	      // Uncommenting the following line would hide the text,
+	      // resulting in the label being used as a tooltip
+	      //showText: false
+	    }
+	],
+	minWidth: 400,
+	modal: true,
+	open: function( event, ui ) {
+		$('#roundScore').text(playerScore);
+		$('#totalScore').text(totalScore);
+
+		roundNum++
+
+		currentArtist = 0;
+
+		getArtistInfo();
+	},
+	show: { effect: "highlight", duration: 800 },
+	title: "Next Round"
+});
+
+/* message box that appears at end of game */
+$('#endsDialog').dialog({
+	autoOpen: false,
+	close: function( event, ui ) {
+		exit();
+	},
+	dialogClass: "no-close",
+	buttons: [
+	  {
+	    text: "OK",
+	    click: function() {
+
+	    	$( this ).dialog( "close" );
+	    }
+		
+	      // Uncommenting the following line would hide the text,
+	      // resulting in the label being used as a tooltip
+	      //showText: false
+	    }
+	],
+	minWidth: 400,
+	modal: true,
+	open: function( event, ui ) {
+		$('#endRoundScore').text(playerScore);
+		$('#endTotalScore').text(totalScore);
+	},
+	show: { effect: "highlight", duration: 800 },
+	title: "End of Game"
 });

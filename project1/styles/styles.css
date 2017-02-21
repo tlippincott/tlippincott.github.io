@@ -122,6 +122,11 @@ html {
 	display: none;
 }
 
+/* End of Game Dialog */
+#endsDialog {
+	text-align: justify;
+}
+
 /* Footer */
 #footerInfo {
 	text-align: center;
@@ -224,6 +229,12 @@ box-shadow:
 #roundNum2 {
 	margin-left: 2px;
 }
+
+#roundsDialog {
+	display: none;
+	text-align: justify;
+}
+
 
 /* Score */
 
