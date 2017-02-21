@@ -2,6 +2,7 @@ var singleGlobalData = "";
 var globalData = "";
 var allArtists = [];
 var artistNames = [];
+var tmpArtists = [];  //temporary array used to randomize artists
 var currentArtist = 0;
 var correctAnswer = "";
 var decreaseScore = "";
@@ -27,7 +28,17 @@ var searchList = [
 	[2, "5W5bDNCqJ1jbCgTxDD0Cb3"],
 	[3, "5a2EaR3hamoenG9rDuVn8j"],
 	[4, "0vn7UBvSQECKJm2817Yf1P"],
-	[5, "03r4iKL2g2442PT9n2UKsx"]];
+	[5, "03r4iKL2g2442PT9n2UKsx"],
+	[6, "71lGEtP9qYXDsSXjfexTqO"],
+	[7, "5pKCCKE2ajJHZ9KAiaK11H"],
+	[8, "4EnEZVjo3w1cwcQYePccay"],
+	[9, "26dSoYclwsYLMAKD3tpOr4"],
+	[10, "3dkbV4qihUeMsqN4vBGg93"],
+	[11, "2Hkut4rAAyrQxRdof7FVJq"],
+	[12, "6deZN1bslXzeGvOLaLMOIF"],
+	[13, "1Mxqyy3pSjf8kZZL4QVxS0"],
+	[14, "2cnMpRsOVqtPMfq7YiFE6K"],
+	[15, "485uL27bPomh29R4JmQehQ"]];
 
 /* If this is the first round, continue to request the
 ** artist information, otherwise wait until the end of
@@ -38,7 +49,7 @@ if (roundNum === 1) {
 
 function getArtistInfo() {
 
-	var getArtist = searchList[Math.floor((Math.random() * 5))][1];
+	var getArtist = searchList[Math.floor((Math.random() * 16))][1];
 
 	/* retrieve information for the beginning artist */
 	$.ajax({
@@ -66,11 +77,16 @@ function getArtistInfo() {
 			globalData = data;
 			console.log(data);
 
+			for (var z = 0; z < 20; z++) {
+				tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
+			}
+
+			shuffle(tmpArtists);  //randomize artist list
+
 			var i = 1;
-			var j = 0;
 
 			for (var x = 0; x < 20; x++){
-				allArtists[i] = [globalData.artists[x].name, globalData.artists[x].images[0].url];
+				allArtists[i] = tmpArtists[x];
 				artistNames[i] = globalData.artists[x].name;
 
 				i++
