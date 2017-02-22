@@ -1,5 +1,7 @@
 var singleGlobalData = "";
 var globalData = "";
+var singleTrackData = "";
+var globalTrackData = "";
 var allArtists = [];
 var artistNames = [];
 var tmpArtists = [];  //temporary array used to randomize artists
@@ -91,11 +93,93 @@ function getArtistInfo() {
 
 				i++
 			}
+
+			getArtistClips();
 		},
 		fail: function(error) {
 			console.log(error);
 		}
 	})
+
+	function getArtistClips() {
+		/* retrieve information for music (track) clips */
+		/* first the one artist used to query for other "related" artists */
+		$.ajax({
+			url: 'https://api.spotify.com/v1/artists/' + getArtist + '/top-tracks?country=US',
+			dataType: 'json',
+			type: 'GET',
+			success: function(oneTrackData) {
+				singleTrackData = oneTrackData;
+				console.log(oneTrackData);
+
+				allArtists[0].push(oneTrackData.tracks[0].preview_url);
+
+				//$('#trackPlay').attr('src', trackData.tracks[0].preview_url);
+
+				// for (var z = 0; z < 20; z++) {
+				// 	tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
+				// }
+
+				// shuffle(tmpArtists);  //randomize artist list
+
+				// var i = 1;
+
+				// for (var x = 0; x < 20; x++){
+				// 	allArtists[i] = tmpArtists[x];
+				// 	artistNames[i] = globalData.artists[x].name;
+
+				// 	i++
+				// }
+			},
+			fail: function(error) {
+				console.log(error);
+			}
+		})
+
+		var artistID = "";
+		var tmpCounter = 0;
+
+		/* music clips for the remaining artists */
+		for (var z = 0; z < 20; z++) {
+
+			artistID = globalData.artists[z].id;
+
+			$.ajax({
+				url: 'https://api.spotify.com/v1/artists/' + artistID + '/top-tracks?country=US',
+				dataType: 'json',
+				type: 'GET',
+				success: function(trackData) {
+					globalTrackData = trackData;
+					console.log(trackData);
+
+					tmpArtists[tmpCounter].push(globalTrackData.tracks[0].preview_url);
+
+					tmpCounter++
+
+					//$('#trackPlay').attr('src', trackData.tracks[0].preview_url);
+
+					// for (var z = 0; z < 20; z++) {
+					// 	tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
+					// }
+
+					// shuffle(tmpArtists);  //randomize artist list
+
+					// var i = 1;
+
+					// for (var x = 0; x < 20; x++){
+					// 	allArtists[i] = tmpArtists[x];
+					// 	artistNames[i] = globalData.artists[x].name;
+
+					// 	i++
+					// }
+				},
+				fail: function(error) {
+					console.log(error);
+				}
+			})
+		}
+	}
+
 }
 
 /* load the photos and answers */
