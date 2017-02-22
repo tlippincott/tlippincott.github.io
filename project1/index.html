@@ -31,12 +31,6 @@
 
 			<div class="five columns">
 
-			<audio id="trackPlay"
-  src=""
-  autoplay>
-  Your browser does not support the <code>audio</code> element.
-</audio>
-
 				<div id="logoInfo">
 
 					<img id="logo" src="images/guesser_logo-shadow.png" >
@@ -153,9 +147,15 @@
 		<div class="row">
 
 		    <!-- Current Available Points -->
-		    <div class="twelve columns" id="availablePoints">
+		    <div class="eight columns" id="availablePoints">
 
 		    	<h2>Available Points: <span id="decPoints">100</span></h2>
+
+		    </div>
+
+		    <div class="four columns" id="muteButtonCol">
+		    	
+		    	<img id="muteBtn" src="images/speaker.png">
 
 		    </div>
 
@@ -173,6 +173,12 @@
 	    </div>
 
     </div>
+
+    <audio id="trackPlay" src="" autoplay>
+		Your browser does not support the <code>audio</code> element.
+	</audio>
+
+
 
 
 <script src="js/app.js" type="text/javascript"></script>

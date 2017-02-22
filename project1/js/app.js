@@ -12,6 +12,7 @@ var availablePoints = 99;  //maximum points available for each image
 var playerScore = 0;  //player's score for the round
 var totalScore = 0;  //player's total score for the game
 var roundNum = 1;  //current round number
+var muted = 0;  //flag to indicate if sound is muted
 
 /* have inputs styled like the jquery ui plugin */
 $('input').addClass("ui-widget ui-widget-content ui-corner-all");
@@ -62,7 +63,7 @@ function getArtistInfo() {
 			singleGlobalData = singleData;
 			console.log(singleData);
 
-			allArtists[0] = [singleGlobalData.name, singleGlobalData.images[0].url];
+			allArtists[0] = [singleGlobalData.name, singleGlobalData.images[0].url, singleGlobalData.id];
 			artistNames[0] = singleGlobalData.name;
 		},
 		fail: function(error) {
@@ -80,110 +81,54 @@ function getArtistInfo() {
 			console.log(data);
 
 			for (var z = 0; z < 20; z++) {
-				tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
+				tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url, globalData.artists[z].id];
 			}
 
-			shuffle(tmpArtists);  //randomize artist list
-
-			var i = 1;
-
-			for (var x = 0; x < 20; x++){
-				allArtists[i] = tmpArtists[x];
-				artistNames[i] = globalData.artists[x].name;
-
-				i++
-			}
-
-			getArtistClips();
+			shuffleArtists();
 		},
 		fail: function(error) {
 			console.log(error);
 		}
 	})
 
-	function getArtistClips() {
-		/* retrieve information for music (track) clips */
-		/* first the one artist used to query for other "related" artists */
-		$.ajax({
-			url: 'https://api.spotify.com/v1/artists/' + getArtist + '/top-tracks?country=US',
-			dataType: 'json',
-			type: 'GET',
-			success: function(oneTrackData) {
-				singleTrackData = oneTrackData;
-				console.log(oneTrackData);
 
-				allArtists[0].push(oneTrackData.tracks[0].preview_url);
+	/* combine data into one array and randomize entries */
+	function shuffleArtists() {
+		shuffle(tmpArtists);  //randomize artist list
 
-				//$('#trackPlay').attr('src', trackData.tracks[0].preview_url);
+		var i = 1;
 
-				// for (var z = 0; z < 20; z++) {
-				// 	tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
-				// }
+		for (var x = 0; x < 20; x++){
+			allArtists[i] = tmpArtists[x];
+			artistNames[i] = globalData.artists[x].name;
 
-				// shuffle(tmpArtists);  //randomize artist list
-
-				// var i = 1;
-
-				// for (var x = 0; x < 20; x++){
-				// 	allArtists[i] = tmpArtists[x];
-				// 	artistNames[i] = globalData.artists[x].name;
-
-				// 	i++
-				// }
-			},
-			fail: function(error) {
-				console.log(error);
-			}
-		})
-
-		var artistID = "";
-		var tmpCounter = 0;
-
-		/* music clips for the remaining artists */
-		for (var z = 0; z < 20; z++) {
-
-			artistID = globalData.artists[z].id;
-
-			$.ajax({
-				url: 'https://api.spotify.com/v1/artists/' + artistID + '/top-tracks?country=US',
-				dataType: 'json',
-				type: 'GET',
-				success: function(trackData) {
-					globalTrackData = trackData;
-					console.log(trackData);
-
-					tmpArtists[tmpCounter].push(globalTrackData.tracks[0].preview_url);
-
-					tmpCounter++
-
-					//$('#trackPlay').attr('src', trackData.tracks[0].preview_url);
-
-					// for (var z = 0; z < 20; z++) {
-					// 	tmpArtists[z] = [globalData.artists[z].name, globalData.artists[z].images[0].url];
-					// }
-
-					// shuffle(tmpArtists);  //randomize artist list
-
-					// var i = 1;
-
-					// for (var x = 0; x < 20; x++){
-					// 	allArtists[i] = tmpArtists[x];
-					// 	artistNames[i] = globalData.artists[x].name;
-
-					// 	i++
-					// }
-				},
-				fail: function(error) {
-					console.log(error);
-				}
-			})
+			i++
 		}
 	}
+}
 
+/* get music clip from Spotify */
+function getMusicClip(id) {
+	$.ajax({
+		url: 'https://api.spotify.com/v1/artists/' + id + '/top-tracks?country=US',
+		dataType: 'json',
+		type: 'GET',
+		success: function(trackData) {
+			globalTrackData = trackData;
+			console.log(trackData);
+
+			$('#trackPlay').attr('src', globalTrackData.tracks[0].preview_url);
+
+		},
+		fail: function(error) {
+			console.log(error);
+		}
+	})
 }
 
 /* load the photos and answers */
 function loadArtists() {
+	getMusicClip(allArtists[currentArtist][2]);  //get the music clip for the current artist
 
 	$('.imageContainer').append('<img id="albumArt">');
 
@@ -288,9 +233,13 @@ $('.button').click(function() {
 			totalScore += playerScore;
 
 			if (roundNum === 3) {
+				var snd = document.getElementById('trackPlay');  //stop audio
+				snd.pause();
 				$('#endsDialog').dialog('open');  //if end of game
 			}
 			else {
+				var snd = document.getElementById('trackPlay');  //stop audio
+				snd.pause();
 				$('#roundsDialog').dialog('open');  //if beginning of next round
 			}
 			
@@ -311,7 +260,7 @@ $('.button').click(function() {
 
 })
 
-/* randomize the remaining three answers */
+/* randomize the passed in array */
 function shuffle (array) {
   var i = 0
     , j = 0
@@ -391,7 +340,7 @@ $('#openingDialog').dialog({
 	    		$('.playName').text($('#playerName').val());
 	    	}
 
-	    	$( this ).dialog( "close" );
+	    	$(this).dialog("close");
 	    }
 		
 	      // Uncommenting the following line would hide the text,
@@ -404,6 +353,14 @@ $('#openingDialog').dialog({
 	},
 	minWidth: 400,
 	modal: true,
+	open: function() {
+		$(this).keyup(function(e) {
+     		var code = (e.keyCode ? e.keyCode : e.which);
+     		if(code === 13) {     //Enter keycode
+       			$(':button:contains("OK")').click();
+     		}
+    	});
+	},
 	show: { effect: "highlight", duration: 800 },
 	title: "Welcome"
 });
@@ -478,3 +435,19 @@ $('#endsDialog').dialog({
 	show: { effect: "highlight", duration: 800 },
 	title: "End of Game"
 });
+
+/* mute button */
+$('#muteBtn').click(function () {
+	var snd = document.getElementById('trackPlay');
+
+	if (muted) {
+		snd.play();
+		$('#muteBtn').attr('src', 'images/speaker.png');
+		muted = 0;
+	}
+	else {
+		snd.pause();
+		$('#muteBtn').attr('src', 'images/speaker_mute.png');
+		muted = 1;
+	}
+})

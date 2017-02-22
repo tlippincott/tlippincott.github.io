@@ -43,7 +43,8 @@ html {
 /* Available Points */
 #availablePoints {
 	margin: 15px 0 0 0;
-	text-align: center;
+	padding-right: 50px;
+	text-align: right;
 }
 
 #decPoints {
@@ -159,6 +160,16 @@ html {
 img {
     max-height: 400px;        
     max-width: 400px;
+}
+
+/* Mute Button */
+#muteButtonCol {
+	text-align: right;
+}
+
+/* Mute Button Icon */
+#muteBtn {
+	min-height: 30px;
 }
 
 /* Opening Dialog */
