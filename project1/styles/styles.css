@@ -169,7 +169,8 @@ img {
 
 /* Mute Button Icon */
 #muteBtn {
-	min-height: 30px;
+	height: 30px;
+	width: 30px;
 }
 
 /* Opening Dialog */
