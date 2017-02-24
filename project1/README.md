@@ -9,7 +9,7 @@ User Stories
 6. At the end of the game, the user's total score is displayed.
 
 Wireframe
-![alt text](https://github.com/tlippincott/tlippincott.github.io/project1/Project_1_Wireframe.png "Wireframe")
+![alt text](https://github.com/tlippincott/tlippincott.github.io/project1/Project_1_Wireframe.png Wireframe)
 
 I utilized HTML, CSS, and JQuery.
 
