@@ -10,3 +10,7 @@ User Stories
 
 Wireframe
 ![alt text](https://github.com/tlippincott/tlippincott.github.io/edit/master/project1/Project_1_Wireframe.png "Wireframe")
+
+I utilized HTML, CSS, and JQuery.
+
+I would like to enhance the game by checking the size of the image before loading to ensure it is not a very small image which will be hard for the end user to view. I would also like to add some mini-game between rounds where the user can bet their current points and play the mini-game (e.g. 21, three-card-monte, etc.).
