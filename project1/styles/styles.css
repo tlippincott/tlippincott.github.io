@@ -178,6 +178,11 @@ img {
 	text-align: justify;
 }
 
+/* Opening Logo */
+#openingLogo {
+	text-align: center;
+}
+
 /* Player Name */
 
 .playName {

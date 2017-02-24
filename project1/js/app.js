@@ -12,6 +12,7 @@ var availablePoints = 99;  //maximum points available for each image
 var playerScore = 0;  //player's score for the round
 var totalScore = 0;  //player's total score for the game
 var roundNum = 1;  //current round number
+var sound;  //variable to hold the audio tag
 var muted = 0;  //flag to indicate if sound is muted
 
 /* have inputs styled like the jquery ui plugin */
@@ -118,6 +119,10 @@ function getMusicClip(id) {
 			console.log(trackData);
 
 			$('#trackPlay').attr('src', globalTrackData.tracks[0].preview_url);
+
+			if (muted) {
+				sound.pause();
+			}
 
 		},
 		fail: function(error) {
@@ -322,9 +327,33 @@ function exit( status ) {
     throw '';
 }
 
-/* message box that appears at beginning of game */
-$('#openingDialog').dialog({
+/* spinning record at beginning of game */
+$('#openingLogo').dialog({
 	autoOpen: true,
+	close: function( event, ui ) {
+
+		$('.ui-dialog').removeClass('custom-overlay');
+
+  		$('#openingDialog').dialog('open');
+	},
+	dialogClass: "no-close",
+	minWidth: 500,
+	modal: true,
+	open: function() {
+
+    	rotateAnimation("vinyl",30);
+
+    	$('#vinyl').click(function() {
+    		$(this).closest('.ui-dialog-content').dialog('close');
+    	})
+    	
+	},
+	title: "Click the Record to Play"
+});
+
+/* dialog box appearing after spinning record logo */
+$('#openingDialog').dialog({
+	autoOpen: false,
 	close: function( event, ui ) {
 		loadArtists();
 	},
@@ -438,16 +467,39 @@ $('#endsDialog').dialog({
 
 /* mute button */
 $('#muteBtn').click(function () {
-	var snd = document.getElementById('trackPlay');
+	sound = document.getElementById('trackPlay');
 
 	if (muted) {
-		snd.play();
+		sound.play();
 		$('#muteBtn').attr('src', 'images/speaker.png');
 		muted = 0;
 	}
 	else {
-		snd.pause();
+		sound.pause();
 		$('#muteBtn').attr('src', 'images/speaker_mute.png');
 		muted = 1;
 	}
 })
+
+/* rotate record image at beginning of game */
+var looper;
+var degrees = 0;
+function rotateAnimation(el,speed){
+	var elem = document.getElementById(el);
+	if(navigator.userAgent.match("Chrome")){
+		elem.style.WebkitTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("Firefox")){
+		elem.style.MozTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("MSIE")){
+		elem.style.msTransform = "rotate("+degrees+"deg)";
+	} else if(navigator.userAgent.match("Opera")){
+		elem.style.OTransform = "rotate("+degrees+"deg)";
+	} else {
+		elem.style.transform = "rotate("+degrees+"deg)";
+	}
+	looper = setTimeout('rotateAnimation(\''+el+'\','+speed+')',speed);
+	degrees++;
+	if(degrees > 359){
+		degrees = 1;
+	}
+}
