@@ -332,8 +332,6 @@ $('#openingLogo').dialog({
 	autoOpen: true,
 	close: function( event, ui ) {
 
-		$('.ui-dialog').removeClass('custom-overlay');
-
   		$('#openingDialog').dialog('open');
 	},
 	dialogClass: "no-close",
