@@ -1,6 +1,6 @@
 # tlippincott.github.io
 
-User Stories
+__User Stories__
 
 1. User clicks on the rotating logo to begin the game.
 
